@@ -148,11 +148,19 @@ fi
 # Configure Hyper-V VSOCK transport
 ###############################################################################
 
-echo "Configuring Hyper-V VSOCK..."
+# echo "Configuring Hyper-V VSOCK..."
+
+# if grep -q '^port=' "$XRDP_DIR/xrdp.ini"; then
+#     sed -i \
+#         's|^port=.*|port=vsock://-1:3389|' \
+#         "$XRDP_DIR/xrdp.ini"
+# else
+#     echo "ERROR: XRDP port setting not found." >&2
+#     exit 1
+# fi
 
 if grep -q '^port=' "$XRDP_DIR/xrdp.ini"; then
-    sed -i \
-        's|^port=.*|port=vsock://-1:3389|' \
+    sed -i '/^\[Globals\]/,/^\[/ s|^port=.*|port=vsock://-1:3389|' \
         "$XRDP_DIR/xrdp.ini"
 else
     echo "ERROR: XRDP port setting not found." >&2
